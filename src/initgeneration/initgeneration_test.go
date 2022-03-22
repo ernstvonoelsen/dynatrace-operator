@@ -42,7 +42,7 @@ var (
 		Spec: dynatracev1beta1.DynaKubeSpec{
 			APIURL:     testApiUrl,
 			Proxy:      &dynatracev1beta1.DynaKubeProxy{Value: testProxy},
-			TrustedCAs: testtrustCAsCM,
+			ClusterCAs: testtrustCAsCM,
 			Tokens:     testTokensName,
 			OneAgent: dynatracev1beta1.OneAgentSpec{
 				CloudNativeFullStack: &dynatracev1beta1.CloudNativeFullStackSpec{

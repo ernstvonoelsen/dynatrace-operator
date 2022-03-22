@@ -136,16 +136,16 @@ func (g *InitGenerator) prepareScriptForDynaKube(dk *dynatracev1beta1.DynaKube, 
 	}
 
 	var trustedCAs []byte
-	if dk.Spec.TrustedCAs != "" {
+	if dk.Spec.ClusterCAs != "" {
 		var cam corev1.ConfigMap
-		if err := g.client.Get(context.TODO(), client.ObjectKey{Name: dk.Spec.TrustedCAs, Namespace: g.namespace}, &cam); err != nil {
+		if err := g.client.Get(context.TODO(), client.ObjectKey{Name: dk.Spec.ClusterCAs, Namespace: g.namespace}, &cam); err != nil {
 			return nil, fmt.Errorf("failed to query ca: %w", err)
 		}
 		trustedCAs = []byte(cam.Data[trustedCASecretField])
 	}
 
 	var tlsCert string
-	if dk.HasActiveGateTLS() {
+	if dk.HasActiveGateCustomCa() {
 		var tlsSecret corev1.Secret
 		if err := g.client.Get(context.TODO(), client.ObjectKey{Name: dk.Spec.ActiveGate.TlsSecretName, Namespace: g.namespace}, &tlsSecret); err != nil {
 			return nil, fmt.Errorf("failed to query tls secret: %w", err)
